@@ -1,15 +1,17 @@
 <template>
   <div class="detail">
     <div class="nav">
-      <div class="l-btn" @click="goback">返回</div>
+      <ul>
+        <li class="l-btn" @click="goback">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回</li>
+      </ul>
     </div>
 
-    <div class="content" v-if="data.detail">
-      <div class="header clear"><h2><img :src="data.detail.auth_icon" alt=""/></h2><p>主演 : {{data.detail.auth}}</p></div>
+    <div class="content" v-if="$store.state.detail._id">
+      <div class="header clear"><h2><img :src="$store.state.detail.detail.auth_icon" alt=""/></h2><p>主演 : {{$store.state.detail.detail.auth}}</p></div>
       <div class="cont">
-        <h3>片名 ： {{data.title}}</h3>
-        <div class="time"><p>时间 : {{data.time}}<span><img src="../assets/img/zan.png" alt=""/></span></p></div>
-        <div class="text-box" v-html="data.detail.content"></div>
+        <h3>片名 ： {{$store.state.detail.title}}</h3>
+        <div class="time"><p>时间 : {{$store.state.detail.time}}<span><img src="../assets/img/zan.png" alt=""/></span></p></div>
+        <div class="text-box" v-html="$store.state.detail.detail.content"></div>
       </div>
     </div>
 
@@ -33,34 +35,28 @@
 </template>
 <script>
 export default {
-  data(){
-    return {
-      data:{}
-    }
-  },
+  props:['id','dataName'],
   methods:{
     goback(){
       this.$router.go(-1)
     }
   },
   activated(){
-    let id = this.$route.params.id;
-    let dataName = this.$route.query.dataName;
-    axios({
-      url:`http://localhost:3000/api/${dataName}/${id}`
-    }).then(
-      res=>this.data=res.data.data,
-    )
+    // let id = this.$route.params.id;
+    let id = this.id;
+    // let dataName = this.$route.query.dataName;
+    let dataName = this.dataName;
+   this.$store.dispatch('UPDATE_DETAIL',{id,dataName})
   }
 }
 </script>
 
 <style scoped>
   html,body{ overflow-x: hidden; }
-  .nav{width:100%;height:0.45rem; position:fixed;color:#fff;font-size: 0.3rem;top:0;left:0; background:#108ee9; border-bottom:1px solid #e8eaec;}
-  /* .nav ul{width:6.4rem; padding-top:0.15rem; margin:0 auto;} */
-  .nav .l-btn{background:url(../assets/img/history.png) no-repeat 0 0; background-size:100%; margin:0 0 0 0.38rem;}
-
+  .nav{width:100%;position:fixed;top:0; background:#108ee9;color:#fff;font-size: .25rem;}
+  .nav ul{width:6.4rem;height:0.45rem; padding-top:0.15rem; margin:0 auto;}
+  .nav ul li{width:.88rem;height:0.31rem; background:url(../assets/img/history.png) no-repeat 0 0;background-size:.29rem .31rem; margin:0 0 0 0.38rem;}
+ 
   .content{max-width:6.4rem; margin:0 auto; margin-top:0.6rem; background:#f2f4f5; padding-bottom:0.85rem;}
   .content .header{ padding:0.39rem 0.28rem 0.15rem 0.28rem; height:auto; background: none}
   .header h2{ float:left; margin-right:0.18rem;}

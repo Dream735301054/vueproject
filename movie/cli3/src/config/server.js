@@ -1,3 +1,3 @@
 module.exports = {
-  baseUrl:'http://localhost:3000'
+  baseUrl:'http://116.62.38.10:3008'
 }

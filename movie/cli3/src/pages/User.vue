@@ -3,9 +3,9 @@
     <nav>个人中心</nav>
     <section id="dl">
       <div class="t">
-          <div>
-            <img :src="server.baseUrl + user.icon" alt=""/>
-            <router-link to="/login"><h3>{{user.nikename}}</h3></router-link>            
+          <div v-if='$store.state.user.data'>
+            <img :src="server.baseUrl + $store.state.user.data.icon" alt=""/>
+            <router-link to="/login"><h3>{{$store.state.user.data.nikename}}</h3></router-link>            
           </div>
           <p><span>V</span>免费兑换VIP</p>   
       </div>
@@ -74,26 +74,28 @@
 </template>
 
 <script>
-export default {
-  data(){
-    return {
-      user:{}
-    }
-  },  
+import store from '../plugins/store'
+export default { 
   beforeRouteEnter(to,from,next){
-    axios({
-      url:'http://localhost:3000/api/user'
-    }).then(
-      res=>res.data.err===0 ? next(_this=>_this.user=res.data.data) : next('/login')
-    )
+    // store.state.$store.state.user.data.err==0 ? next(_this=>_this.user=store.state.user) : next('/login')
+    store.state.user.err==0 ? next() : next('/login')
   },
   methods:{   
     logout(){
       axios({
-        url:'http://localhost:3000/api/logout',
+        url:'/api/logout',
         method:'delete'
       }).then( 
-        res=>res.data.err===0 && this.$router.push('/home')
+        res=>{
+          if(res.data.err===0){
+          this.$router.push('/home')
+          this.$store.commit('CHECK_USER',{
+            err:1,
+            msg:'未登录'
+          })
+          window.localStorage.removeItem('user')
+          }
+        }
       )
     }
   }

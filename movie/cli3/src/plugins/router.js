@@ -9,14 +9,16 @@ import Follow from "../pages/Follow.vue";
 import User from "../pages/User.vue";
 import Login from "../pages/Login.vue";
 import Reg from "../pages/Reg.vue";
+import Tie from "../pages/Tie.vue";
 import Error from "../components/Error.vue";
 import Detail from "../pages/Detail.vue";
 let routes = [
     {path:"/home",component:Home},
     {path:"/follow",component:Follow},
-    {path:"/detail/:id",component:Detail,name:"detail"},
+    {path:"/detail/:id",component:Detail,name:"detail",props:(route)=>({id:route.params.id,dataName:route.query.dataName})},
     {path:"/user",component:User},
     {path:"/login",component:Login},
+    {path:"/tie",component:Tie},
     {path:"/reg",component:Reg},
     {path:"/",redirect:'/home'},
     {path:"/*",component:Error},

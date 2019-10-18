@@ -1,26 +1,16 @@
 <template>
     <div class="follow">
         <div class="ttt">VIP播放列表</div>
-        <List :list-data="listData" :data-name="'follow'"></List>
+        <List :list-data="$store.state.follow" :data-name="'follow'"></List>
     </div>
 </template>
 
 <script>
 import List from '@/components/List'
 export default {
-    data(){
-        return {
-            listData:[]
-        }
-    },
     components:{List},
     activated(){
-         axios({
-            url:'http://localhost:3000/api/follow',
-            params:{_page:1,_limit:10}
-            }).then(
-            res=>this.listData=res.data.data
-        )
+         this.$store.dispatch('UPDATE_FOLLOW')
     } 
 }
 </script>

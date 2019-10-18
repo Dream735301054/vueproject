@@ -18,14 +18,19 @@ import './plugins/axios';
 // import './filters';
 // 配置服务器地址
 Vue.prototype.server = require('./config/server')
+// 引入状态管理
+import store from "./plugins/store"
+//同步状态管理与本地存储
+let local = window.localStorage.getItem('user');
+if(local){
+  store.commit('CHECK_USER',JSON.parse(local))
+}
 
 
-new Vue({
-  data:{
-    bFooter:true,
-  },
+export default new Vue({
   render: h => h(App),
   //挂载
-  router
+  router,
+  store
 }).$mount('#app')
 

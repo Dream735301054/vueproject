@@ -42,26 +42,11 @@ export default {
   },  
   methods:{
     login(){
-      this.$axios({
-        url:'http://localhost:3000/api/login',
-        method:'post',
-        // withCredentials:true,//逐条携带
-        data:{
-          username:this.username,
-          password:this.password,
-          save:true
-        }
+      this.$store.dispatch('CHECK_USER',{
+        username:this.username,
+        password:this.password
       }).then(
-        res=>{
-          if(res.data.err===1){
-            this.mess=res.data.msg
-            console.log('1',res.data)
-          }else{
-            //1. 跳转同时，路由携带用户数据给user
-            this.$router.push('/user')
-            console.log(1)
-          }
-        }
+        data=>data.err == 0 ? this.$router.push('/user') : this.mess = data.mess
       )
     }
   }

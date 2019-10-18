@@ -10,7 +10,7 @@
         </ul>
         <ul>
             <!-- <li><a href="#"><i class="l3"></i><p>直播</p></a></li> -->
-            <router-link tag="li" to="/Detail">
+            <router-link tag="li" to="/tie">
                 <a href="javascript:;"><i class="l3"></i><p>明星帖</p></a>
             </router-link>
             <router-link tag="li" to="/user">

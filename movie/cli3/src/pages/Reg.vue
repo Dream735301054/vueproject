@@ -44,7 +44,7 @@ export default {
       formData.append('password',this.password);
 
       this.$axios({
-        url:'http://localhost:3000/api/reg',
+        url:'http://localhost:3008/api/reg',
         method:'post',
         data:formData
       }).then(

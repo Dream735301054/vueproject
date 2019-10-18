@@ -12,11 +12,11 @@
     <section id="serch">
       <input type="text" value="小猪佩奇第四季"/>
     </section >
-    <Slider :banner="banner" :data-name="'banner'"></Slider>		
+    <Slider :banner="$store.state.banner" :data-name="'banner'"></Slider>		
     <section id="haoli">
       <p>空间里看风景阿里看<span>&gt;</span></p>
     </section>
-    <List :list-data="listData" :data-name="'list'"></List>
+    <List :list-data="$store.state.list" :data-name="'list'"></List>
   </div>
 </template>
 
@@ -24,28 +24,12 @@
 <script>
 import Slider from '@/components/Slider'
 import List from '@/components/List'
-export default {
-  data(){
-    return {
-      listData:[],
-      banner:[]
-    }
-  },
+export default {  
   components:{Slider,List}, 
   activated(){
-    axios({
-      url:'http://localhost:3000/api/list',
-      params:{_page:1,_limit:10}
-    }).then(
-      res=>this.listData=res.data.data,
-    )
-    axios({
-      url:'http://localhost:3000/api/banner',
-      params:{_page:1,_limit:3}
-    }).then(
-      res=>this.banner=res.data.data,
-    )   
-  }, 
+    this.$store.dispatch('UPDATE_LIST')
+    this.$store.dispatch('UPDATE_BANNER')
+  }
 }
 </script>
 

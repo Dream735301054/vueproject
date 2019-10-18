@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Loading v-show ="$store.state.bLoading"></Loading>
     <transition
       enter-active-class="animated bounceInLeft"
     >
@@ -7,31 +8,29 @@
       <keep-alive><!-- 缓存组件 -->
         <router-view></router-view>
       </keep-alive>
-    </transition>
-    
-    
-    <Loading></Loading>
-    <Footer v-show ="$root.bFooter"></Footer>
+    </transition>    
+    <Footer v-show ="$store.state.bFoot"></Footer>
   </div>
 </template>
 
 <script>
-// import Detail from './pages/Detail'
 import Loading from './components/Loading'
 import Footer from './components/Footer'
+import { VIEW_FOOT } from './store/types'
 export default {
   name: 'app',
   components: {
     Footer,Loading
   },
+  mounted(){
+  },
   methods:{
     checkPath(path){//路由检测
-      console.log('path',path)
       if(/home|user|follow/.test(path)){
-        this.$root.$data.bFooter=true;
+        this.$store.dispatch(VIEW_FOOT,true)
       }
       if(/login|reg|detail/.test(path)){
-        this.$root.$data.bFooter=false;
+        this.$store.dispatch(VIEW_FOOT,false)
       }
     }
   },
